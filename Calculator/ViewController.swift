@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ViewController: UIViewController
 {
 
@@ -31,7 +32,41 @@ class ViewController: UIViewController
     
     var operandStack  = Array<Double>()
     
+    
+    @IBAction func operate(sender: UIButton)
+    {
+        let operation = sender.currentTitle!
+        if userIsInTheMiddleOfTypingANumber { enter() }
+        
+        switch operation {
+            case "×": perfomOperation {$0 * $1}     // Clousure
+            case "÷": perfomOperation {$1 / $0}     // Clousure
+            case "+": perfomOperation {$0 + $1}     // Clousure
+            case "-": perfomOperation {$1 - $0}     // Clousure
+            case "√": perfomOperation { sqrt($0) }     // Clousure            //<== Wierd Error
+            default : break
+        }
+    }
 
+
+    
+    func perfomOperation(operation: (Double, Double) ->Double)
+    {
+        if operandStack.count >= 2{
+            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
+            enter()
+        }
+    }
+    
+    func performOperation(operation: Double -> Double)
+    {
+        if operandStack.count >= 1 {
+            displayValue = operation(operandStack.removeLast())
+            enter()
+        }
+    }
+    
+    
     @IBAction func enter()
     {
         userIsInTheMiddleOfTypingANumber=false

@@ -32,6 +32,35 @@ class ViewController: UIViewController
     
     var operandStack  = Array<Double>()
     
+//    func performOperation(operation:(Double, Double)->Double)
+//    {
+//        if operandStack.count >= 2{
+//            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
+//            enter()
+//        }
+//    }
+//    
+//    func performOperation(operation:(Double)->Double)
+//    {
+//        if operandStack.count >= 1 {
+//            displayValue = operation(operandStack.removeLast())
+//            enter()
+//        }
+//    }
+    
+    func performOperation(operate: (Double,Double) ->Double) {
+        if operandStack.count >= 2 {
+            displayValue = operate(operandStack.removeLast(), operandStack.removeLast())
+            enter()
+        }
+    }
+    func performOperation(operate: (Double) ->Double) {
+        if operandStack.count >= 1 {
+            displayValue = operate(operandStack.removeLast() )
+            enter()
+        }
+    }
+    
     
     @IBAction func operate(sender: UIButton)
     {
@@ -39,33 +68,16 @@ class ViewController: UIViewController
         if userIsInTheMiddleOfTypingANumber { enter() }
         
         switch operation {
-            case "×": perfomOperation {$0 * $1}     // Clousure
-            case "÷": perfomOperation {$1 / $0}     // Clousure
-            case "+": perfomOperation {$0 + $1}     // Clousure
-            case "-": perfomOperation {$1 - $0}     // Clousure
-            case "√": perfomOperation { sqrt($0) }     // Clousure            //<== Wierd Error
+            case "×": performOperation {$0 * $1}     // Clousure
+            case "÷": performOperation {$1 / $0}     // Clousure
+            case "+": performOperation {$0 + $1}     // Clousure
+            case "-": performOperation {$1 - $0}     // Clousure
+            case "√": performOperation { sqrt($0) }     // Clousure            //<== Wierd Error
             default : break
         }
-    }
+        }
 
 
-    
-    func perfomOperation(operation: (Double, Double) ->Double)
-    {
-        if operandStack.count >= 2{
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
-        }
-    }
-    
-    func performOperation(operation: Double -> Double)
-    {
-        if operandStack.count >= 1 {
-            displayValue = operation(operandStack.removeLast())
-            enter()
-        }
-    }
-    
     
     @IBAction func enter()
     {

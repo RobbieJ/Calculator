@@ -68,11 +68,11 @@ class ViewController: UIViewController
         if userIsInTheMiddleOfTypingANumber { enter() }
         
         switch operation {
-            case "×": performOperation {$0 * $1}     // Clousure
-            case "÷": performOperation {$1 / $0}     // Clousure
-            case "+": performOperation {$0 + $1}     // Clousure
-            case "-": performOperation {$1 - $0}     // Clousure
-            case "√": performOperation { sqrt($0) }     // Clousure            //<== Wierd Error
+            case "×": performOperation {$0 * $1}     //
+            case "÷": performOperation {$1 / $0}     //
+            case "+": performOperation {$0 + $1}     //
+            case "-": performOperation {$1 - $0}     //
+            case "√": performOperation { sqrt($0) }  //             //<== Wierd Error
             default : break
         }
         }

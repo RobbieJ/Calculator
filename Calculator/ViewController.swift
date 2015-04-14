@@ -32,31 +32,20 @@ class ViewController: UIViewController
     
     var operandStack  = Array<Double>()
     
-//    func performOperation(operation:(Double, Double)->Double)
-//    {
-//        if operandStack.count >= 2{
-//            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-//            enter()
-//        }
-//    }
-//    
-//    func performOperation(operation:(Double)->Double)
-//    {
-//        if operandStack.count >= 1 {
-//            displayValue = operation(operandStack.removeLast())
-//            enter()
-//        }
-//    }
     
-    func performOperation(operate: (Double,Double) ->Double) {
+    private func performOperation(operation: (Double,Double) ->Double) {
         if operandStack.count >= 2 {
-            displayValue = operate(operandStack.removeLast(), operandStack.removeLast())
+            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
             enter()
         }
     }
-    func performOperation(operate: (Double) ->Double) {
+    
+    // Note  : These need to be private to stop Obj-C spassing out. 
+    // See Swift 1.2 Release Notes.
+    
+    private func performOperation(operation: (Double) ->Double) {
         if operandStack.count >= 1 {
-            displayValue = operate(operandStack.removeLast() )
+            displayValue = operation(operandStack.removeLast() )
             enter()
         }
     }

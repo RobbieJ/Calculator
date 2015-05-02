@@ -33,17 +33,17 @@ class ViewController: UIViewController
     var operandStack  = Array<Double>()
     
     
-    private func performOperation(operation: (Double,Double) ->Double) {
+    // Note  : These need to be private to stop Obj-C spassing out.
+    // See Swift 1.2 Release Notes.
+    
+    private func performOperation(nonobjc: () = (), operation: (Double,Double) ->Double) {
         if operandStack.count >= 2 {
             displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
             enter()
         }
     }
     
-    // Note  : These need to be private to stop Obj-C spassing out. 
-    // See Swift 1.2 Release Notes.
-    
-    private func performOperation(operation: (Double) ->Double) {
+    private func performOperation(nonobjc: () = (), operation: (Double) ->Double) {
         if operandStack.count >= 1 {
             displayValue = operation(operandStack.removeLast() )
             enter()

@@ -16,6 +16,8 @@ class ViewController: UIViewController
     
     var userIsInTheMiddleOfTypingANumber = false
     
+    var brain = CalculatorBrain()               // Hook in the controller.
+    
     @IBAction func appendDigit(sender: UIButton)
     {
         let digit = sender.currentTitle!        // <-- Unwrap the Optional Varible.
@@ -30,40 +32,25 @@ class ViewController: UIViewController
         
     }
     
-    var operandStack  = Array<Double>()
+ 
     
-    
-    // Note  : These need to be private to stop Obj-C spassing out.
-    // See Swift 1.2 Release Notes.
-    
-    private func performOperation(nonobjc: () = (), operation: (Double,Double) ->Double) {
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
-        }
-    }
-    
-    private func performOperation(nonobjc: () = (), operation: (Double) ->Double) {
-        if operandStack.count >= 1 {
-            displayValue = operation(operandStack.removeLast() )
-            enter()
-        }
-    }
-    
+   
     
     @IBAction func operate(sender: UIButton)
     {
-        let operation = sender.currentTitle!
+
         if userIsInTheMiddleOfTypingANumber { enter() }
-        
-        switch operation {
-            case "×": performOperation {$0 * $1}     //
-            case "÷": performOperation {$1 / $0}     //
-            case "+": performOperation {$0 + $1}     //
-            case "-": performOperation {$1 - $0}     //
-            case "√": performOperation { sqrt($0) }  //             //<== Wierd Error
-            default : break
+        if let operation = sender.currentTitle
+        {
+            if let result = brain.performOperation(operation)
+            {
+                displayValue = result
+            } else
+            {
+                displayValue = 0        // Another Lame choice .
+            }
         }
+        
         }
 
 
@@ -71,7 +58,16 @@ class ViewController: UIViewController
     @IBAction func enter()
     {
         userIsInTheMiddleOfTypingANumber=false
-        operandStack.append(displayValue)
+        if let result = brain.pushOperand(displayValue) {
+            displayValue = result
+            
+        } else {
+            // Something in here... RJ TODO
+            // Assignment goes in here.
+            displayValue = 0    // Lame.. is should be nil or an error message.
+        
+        }
+        
     }
 
     var displayValue : Double {
